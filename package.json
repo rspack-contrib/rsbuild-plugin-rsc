@@ -1,0 +1,41 @@
+{
+  "name": "rsbuild-plugin-rsc",
+  "version": "0.0.1-alpha.1",
+  "description": "React server component plugin for Rsbuild",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rspack-contrib/rsbuild-plugin-rsc",
+    "directory": "packages/plugin-rsc"
+  },
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rslib build",
+    "dev": "rslib build -w"
+  },
+  "devDependencies": {
+    "@rsbuild/core": "1.6.15",
+    "@rslib/core": "0.18.4",
+    "@types/node": "^25.0.3",
+    "@typescript/native-preview": "7.0.0-dev.20251223.1",
+    "prebundle": "1.6.0",
+    "react-server-dom-rspack": "0.0.1-alpha.2",
+    "rsbuild-plugin-arethetypeswrong": "^0.1.1"
+  },
+  "peerDependencies": {
+    "@rsbuild/core": "1.x",
+    "react-server-dom-rspack": "0.0.1-alpha.2"
+  }
+}
