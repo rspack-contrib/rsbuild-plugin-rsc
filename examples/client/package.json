@@ -1,0 +1,26 @@
+{
+  "name": "rsbuild-rsc-client",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "rsbuild build",
+    "dev": "node server.mjs",
+    "preview": "rsbuild preview"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-server-dom-rspack": "0.0.1-alpha.3",
+    "rsc-html-stream": "^0.0.7"
+  },
+  "devDependencies": {
+    "@rsbuild/core": "^1.6.14",
+    "@rsbuild/plugin-react": "^1.4.2",
+    "@types/express": "^5.0.6",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "rsbuild-plugin-rsc": "workspace:*",
+    "srvx": "^0.9.8"
+  }
+}
