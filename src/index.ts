@@ -1,4 +1,4 @@
-import type { RsbuildConfig, RsbuildPlugin, SourceConfig } from '@rsbuild/core';
+import type { RsbuildConfig, RsbuildEntry, RsbuildPlugin, SourceConfig } from '@rsbuild/core';
 import { rspack } from '@rsbuild/core';
 import { SsrEntryPlugin } from './ssrEntryPlugin.js';
 import type { PluginRSCOptions } from './types.js';
@@ -13,6 +13,21 @@ const ENVIRONMENT_NAMES = {
   CLIENT: 'client',
 };
 
+function normalizeServerEntry(entry: RsbuildEntry): RsbuildEntry {
+  if (typeof entry === "string" || Array.isArray(entry)) {
+    return {
+      index: {
+        import: entry,
+        layer: RSC_LAYERS_NAMES.reactServerComponents,
+      },
+    };
+  }
+  return {
+    ...entry,
+    layer: RSC_LAYERS_NAMES.reactServerComponents,
+  };
+}
+
 export const pluginRSC = (
   pluginOptions: PluginRSCOptions = {},
 ): RsbuildPlugin => ({
@@ -24,20 +39,13 @@ export const pluginRSC = (
     api.modifyRsbuildConfig((config, { mergeRsbuildConfig }) => {
       const serverSource: SourceConfig | undefined = entries.rsc
         ? {
-            entry: {
-              index: {
-                import: entries.rsc,
-                layer: RSC_LAYERS_NAMES.reactServerComponents,
-              },
-            },
+            entry: normalizeServerEntry(entries.rsc),
           }
         : undefined;
 
       const clientSource: SourceConfig | undefined = entries.client
         ? {
-            entry: {
-              index: entries.client,
-            },
+            entry: entries.client,
           }
         : undefined;
 
