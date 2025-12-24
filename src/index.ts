@@ -5,8 +5,7 @@ import type { PluginRSCOptions } from './types.js';
 
 export const PLUGIN_RSC_NAME = 'rsbuild:rsc';
 
-// TODO: Rsbuild does not currently use a version of Rspack with RSC support, so we use a type assertion here to access RSC_LAYERS_NAMES.
-const { createRscPlugins, RSC_LAYERS_NAMES } = rspack.experiments as any;
+const { createRscPlugins, RSC_LAYERS_NAMES } = rspack.experiments;
 
 const ENVIRONMENT_NAMES = {
   SERVER: 'server',
@@ -18,13 +17,13 @@ function normalizeServerEntry(entry: RsbuildEntry): RsbuildEntry {
     return {
       index: {
         import: entry,
-        layer: RSC_LAYERS_NAMES.reactServerComponents,
+        layer: RSC_LAYERS_NAMES.REACT_SERVER_COMPONENTS,
       },
     };
   }
   return {
     ...entry,
-    layer: RSC_LAYERS_NAMES.reactServerComponents,
+    layer: RSC_LAYERS_NAMES.REACT_SERVER_COMPONENTS,
   };
 }
 
@@ -39,14 +38,14 @@ export const pluginRSC = (
     api.modifyRsbuildConfig((config, { mergeRsbuildConfig }) => {
       const serverSource: SourceConfig | undefined = entries.rsc
         ? {
-            entry: normalizeServerEntry(entries.rsc),
-          }
+          entry: normalizeServerEntry(entries.rsc),
+        }
         : undefined;
 
       const clientSource: SourceConfig | undefined = entries.client
         ? {
-            entry: entries.client,
-          }
+          entry: entries.client,
+        }
         : undefined;
 
       const rscEnvironmentsConfig: RsbuildConfig = {
@@ -95,7 +94,7 @@ export const pluginRSC = (
           // If entries.ssr exists, SsrEntryPlugin will handle the addition, so no need to add it again.
           chain.module
             .rule('rsc-resolve')
-            .issuerLayer(RSC_LAYERS_NAMES.reactServerComponents)
+            .issuerLayer(RSC_LAYERS_NAMES.REACT_SERVER_COMPONENTS)
             .resolve.conditionNames.add('react-server')
             .add('...');
         }

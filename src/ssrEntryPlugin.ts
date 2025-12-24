@@ -2,8 +2,7 @@ import path from 'node:path';
 import type { Rspack } from '@rsbuild/core';
 import { rspack } from '@rsbuild/core';
 
-// TODO: Rsbuild does not currently use a version of Rspack with RSC support, so we use a type assertion here to access RSC_LAYERS_NAMES.
-const { RSC_LAYERS_NAMES } = rspack.experiments as any;
+const { RSC_LAYERS_NAMES } = rspack.experiments;
 
 export class SsrEntryPlugin {
   #ssrEntries: string[];
@@ -29,12 +28,12 @@ export class SsrEntryPlugin {
 
       compiler.options.module.rules.push({
         resource: resolvedSsrEntry,
-        layer: RSC_LAYERS_NAMES.serverSideRendering,
+        layer: RSC_LAYERS_NAMES.REACT_SERVER_COMPONENTS,
       });
     }
 
     compiler.options.module.rules.push({
-      issuerLayer: RSC_LAYERS_NAMES.reactServerComponents,
+      issuerLayer: RSC_LAYERS_NAMES.REACT_SERVER_COMPONENTS,
       exclude,
       resolve: {
         conditionNames: ['react-server', '...'],
