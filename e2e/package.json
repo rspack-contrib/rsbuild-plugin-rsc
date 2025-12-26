@@ -1,0 +1,17 @@
+{
+  "private": true,
+  "name": "rsbuild-plugin-rsc-e2e",
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --headed --debug --timeout=30000",
+    "test:server": "playwright test cases/examples/server.test.ts --headed --debug --timeout=30000",
+    "test:server:ui": "playwright test cases/examples/server.test.ts --ui",
+    "test:ui": "playwright test --ui"
+  },
+  "devDependencies": {
+    "@e2e/helper": "workspace:*"
+  }
+}
