@@ -3,6 +3,7 @@ import net from 'node:net';
 import { platform } from 'node:os';
 import { join, sep } from 'node:path';
 import { URL } from 'node:url';
+import { inspect } from 'node:util';
 import { originalPositionFor, TraceMap } from '@jridgewell/trace-mapping';
 import { logger, type RsbuildPlugin } from '@rsbuild/core';
 import glob, { type Options as GlobOptions } from 'fast-glob';
@@ -322,3 +323,69 @@ export const enableDebugMode = () => {
     logger.level = level;
   };
 };
+
+// This goes straight to Node’s stdout, avoiding Rslib's verbose output:
+export const debugPrint = (...args: unknown[]) => {
+  const prettyArgs = args
+    .map((arg) =>
+      typeof arg === 'string'
+        ? arg
+        : inspect(arg, { colors: process.stdout.isTTY })
+    )
+    .join(' ')
+
+  const timestamp = new Date().toISOString().split('T')[1]
+
+  return process.stdout.write(`[${timestamp}] ${prettyArgs}\n`)
+}
+
+export async function waitFor(
+  millisOrCondition: number | (() => boolean)
+): Promise<void> {
+  if (typeof millisOrCondition === 'number') {
+    return new Promise((resolve) => setTimeout(resolve, millisOrCondition))
+  }
+
+  return new Promise((resolve) => {
+    const interval = setInterval(() => {
+      if (millisOrCondition()) {
+        clearInterval(interval)
+        resolve()
+      }
+    }, 100)
+  })
+}
+
+export async function retry<T>(
+  fn: () => T | Promise<T>,
+  duration: number = 3000,
+  interval: number = 500,
+  description?: string
+): Promise<T> {
+  if (duration % interval !== 0) {
+    throw new Error(
+      `invalid duration ${duration} and interval ${interval} mix, duration must be evenly divisible by interval`
+    )
+  }
+
+  for (let i = duration; i >= 0; i -= interval) {
+    try {
+      return await fn()
+    } catch (err) {
+      if (i === 0) {
+        console.error(
+          `Failed to retry${
+            description ? ` ${description}` : ''
+          } within ${duration}ms`
+        )
+        throw err
+      }
+      debugPrint(
+        `Retrying${description ? ` ${description}` : ''} in ${interval}ms`
+      )
+      await waitFor(interval)
+    }
+  }
+
+  throw new Error('Duration cannot be less than 0.')
+}

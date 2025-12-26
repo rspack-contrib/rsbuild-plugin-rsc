@@ -1,20 +1,5 @@
-import path from "node:path";
-import fs from "node:fs/promises";
-import os from 'node:os';
-import { fileURLToPath } from "node:url";
-import { type Dev, expect, test } from "@e2e/helper";
-import type { Page } from "playwright";
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const EXAMPLE_DIR = path.resolve(__dirname, "../../../../examples/server");
-
-const start = async (dev: Dev, page: Page) => {
-  const rsbuild = await dev({
-    cwd: EXAMPLE_DIR,
-  });
-  page.goto(`http://localhost:${rsbuild.port}`);
-  return rsbuild;
-};
+import { expect, test } from "@e2e/helper";
+import { setup } from "./setup";
 
 const createTodo = async (page: any, title: string, description: string, dueDate = "2025-12-31") => {
   await page.click('header button:has-text("+")');
@@ -60,19 +45,8 @@ const verifyTodoDetailPage = async (page: any) => {
   await expect(detailForm).toBeVisible();
 };
 
-test.beforeEach(async () => {
-    process.env.TODOS_FILE = path.join(os.tmpdir(), `todos-${Date.now()}.json`);
-});
-
-test.afterEach(async () => {
-    try {
-        await fs.unlink(process.env.TODOS_FILE!);
-    } catch {
-    }
-});
-
 test("should load the page and display the title", async ({ page, dev }) => {
-  await start(dev, page);
+  await setup(dev, page);
 
   // Check page title
   await expect(page).toHaveTitle("Todos");
@@ -88,7 +62,7 @@ test("should load the page and display the title", async ({ page, dev }) => {
 });
 
 test("should create a new todo", async ({ page, dev }) => {
-  await start(dev, page);
+  await setup(dev, page);
 
   const timestamp = Date.now();
   const todoTitle = `Test Todo ${timestamp}`;
@@ -98,7 +72,7 @@ test("should create a new todo", async ({ page, dev }) => {
 });
 
 test("should mark a todo as complete and incomplete", async ({ page, dev }) => {
-  await start(dev, page);
+  await setup(dev, page);
 
   // Create a todo first
   await createTodo(page, "Test Complete Todo", "Test description");
@@ -128,7 +102,7 @@ test("should mark a todo as complete and incomplete", async ({ page, dev }) => {
 });
 
 test("should delete a todo", async ({ page, dev }) => {
-  await start(dev, page);
+  await setup(dev, page);
 
   const timestamp = Date.now();
   const todoTitle = `Delete Me ${timestamp}`;
@@ -147,7 +121,7 @@ test("should delete a todo", async ({ page, dev }) => {
 });
 
 test("should navigate to todo detail page", async ({ page, dev }) => {
-  await start(dev, page);
+  await setup(dev, page);
 
   // Create a todo first
   await createTodo(page, "Detail Test Todo", "Test description for details");
@@ -160,7 +134,7 @@ test("should navigate to todo detail page", async ({ page, dev }) => {
 });
 
 test("should update a todo from detail page", async ({ page, dev }) => {
-  await start(dev, page);
+  await setup(dev, page);
 
   // Create a todo to update
   const timestamp = Date.now();
@@ -191,7 +165,7 @@ test("should update a todo from detail page", async ({ page, dev }) => {
 });
 
 test("should handle client-side navigation", async ({ page, dev }) => {
-  await start(dev, page);
+  await setup(dev, page);
 
   // Create multiple todos for navigation testing
   for (let count = 0; count < 3; count++) {
@@ -232,7 +206,7 @@ test('should show "Select a todo" message when no todo is selected', async ({
   page,
   dev,
 }) => {
-  await start(dev, page);
+  await setup(dev, page);
 
   // Verify the "Select a todo" message is visible
   const selectMessage = page.locator('main p:has-text("Select a todo")');
@@ -240,7 +214,7 @@ test('should show "Select a todo" message when no todo is selected', async ({
 });
 
 test("should close dialog after form submission", async ({ page, dev }) => {
-  await start(dev, page);
+  await setup(dev, page);
 
   // Open the dialog
   await page.click('header button:has-text("+")');
