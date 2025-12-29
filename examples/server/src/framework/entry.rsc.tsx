@@ -122,9 +122,13 @@ async function handler(request: Request, id?: number): Promise<Response> {
   const root = (
     <>
       {nonceMeta}
-      {serverEntry.entryCssFiles.map(href => (
-        <link key={href} rel="stylesheet" href={href} precedence="default"></link>
-      ))}
+      {
+        serverEntry.entryCssFiles
+          ? serverEntry.entryCssFiles.map(href => (
+            <link key={href} rel="stylesheet" href={href} precedence="default"></link>
+          ))
+          : null
+      }
       <Todos id={id} />
     </>
   );

@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import net from 'node:net';
 import { platform } from 'node:os';
-import { join, sep } from 'node:path';
+import path, { join, sep } from 'node:path';
 import { URL } from 'node:url';
 import { inspect } from 'node:util';
 import { originalPositionFor, TraceMap } from '@jridgewell/trace-mapping';
@@ -389,3 +389,37 @@ export async function retry<T>(
 
   throw new Error('Duration cannot be less than 0.')
 }
+
+export async function patchFile(
+    outputPath: string,
+    content: string | ((content: string | undefined) => string),
+    runWithTempContent?: (context: { newFile: boolean }) => Promise<void>
+  ): Promise<{ newFile: boolean }> {
+    const newFile = !fs.existsSync(outputPath)
+    await fs.promises.mkdir(path.dirname(outputPath), { recursive: true })
+    const previousContent = newFile ? undefined : await fs.promises.readFile(outputPath, 'utf-8')
+
+    await fs.promises.writeFile(
+      outputPath,
+      typeof content === 'function' ? content(previousContent) : content,
+      {
+        flush: true,
+      }
+    )
+
+    if (runWithTempContent) {
+      try {
+        await runWithTempContent({ newFile })
+      } finally {
+        if (previousContent === undefined) {
+          await fs.promises.rm(outputPath)
+        } else {
+          await fs.promises.writeFile(outputPath, previousContent, {
+            flush: true,
+          })
+        }
+      }
+    }
+
+    return { newFile }
+  }

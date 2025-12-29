@@ -1,5 +1,6 @@
-import { expect, test } from "@e2e/helper";
-import { setup } from "./setup";
+import { expect, patchFile, test } from "@e2e/helper";
+import { PROJECT_DIR, setup } from "./setup";
+import path from "node:path";
 
 const createTodo = async (page: any, title: string, description: string, dueDate = "2025-12-31") => {
   await page.click('header button:has-text("+")');
@@ -59,6 +60,9 @@ test("should load the page and display the title", async ({ page, dev }) => {
   // Check "Add todo" button is visible
   const addButton = page.locator("header button", { hasText: "+" });
   await expect(addButton).toBeVisible();
+
+  const links = page.locator('link[rel="stylesheet"]');
+  await expect(links).toHaveCount(1);
 });
 
 test("should create a new todo", async ({ page, dev }) => {
@@ -230,3 +234,29 @@ test("should close dialog after form submission", async ({ page, dev }) => {
   // Wait for the dialog to close using proper wait condition
   await expect(dialog).not.toBeVisible();
 });
+
+test('should not load CSS when "use server-entry" directive is removed', async ({ page, dev }) => {
+  await patchFile(
+    path.join(PROJECT_DIR, "src/Todos.tsx"),
+    (content) => content!.replace('"use server-entry";', ""),
+    async () => {
+      await setup(dev, page);
+
+      // Check page title
+      await expect(page).toHaveTitle("Todos");
+
+      // Check header is visible
+      const header = page.locator("header h1");
+      await expect(header).toBeVisible();
+      await expect(header).toHaveText("Todos");
+
+      // Check "Add todo" button is visible
+      const addButton = page.locator("header button", { hasText: "+" });
+      await expect(addButton).toBeVisible();
+
+      const links = page.locator('link[rel="stylesheet"]');
+      await expect(links).toHaveCount(0);
+    }
+  );
+});
+
