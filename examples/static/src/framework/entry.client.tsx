@@ -1,37 +1,37 @@
 import {
   createFromFetch,
   createFromReadableStream,
-} from 'react-server-dom-rspack/client.browser'
-import React from 'react'
-import { createRoot, hydrateRoot } from 'react-dom/client'
-import { rscStream } from 'rsc-html-stream/client'
-import { GlobalErrorBoundary } from './error-boundary'
-import { createRscRenderRequest } from './request'
-import type { RscPayload } from './shared'
+} from 'react-server-dom-rspack/client.browser';
+import React from 'react';
+import { createRoot, hydrateRoot } from 'react-dom/client';
+import { rscStream } from 'rsc-html-stream/client';
+import { GlobalErrorBoundary } from './error-boundary';
+import { createRscRenderRequest } from './request';
+import type { RscPayload } from './shared';
 
 async function hydrate(): Promise<void> {
   async function onNavigation() {
-    const renderRequest = createRscRenderRequest(window.location.href)
-    const payload = await createFromFetch<RscPayload>(fetch(renderRequest))
-    setPayload(payload)
+    const renderRequest = createRscRenderRequest(window.location.href);
+    const payload = await createFromFetch<RscPayload>(fetch(renderRequest));
+    setPayload(payload);
   }
 
-  const initialPayload = await createFromReadableStream<RscPayload>(rscStream)
+  const initialPayload = await createFromReadableStream<RscPayload>(rscStream);
 
-  let setPayload: (v: RscPayload) => void
+  let setPayload: (v: RscPayload) => void;
 
   function BrowserRoot() {
-    const [payload, setPayload_] = React.useState(initialPayload)
+    const [payload, setPayload_] = React.useState(initialPayload);
 
     React.useEffect(() => {
-      setPayload = (v) => React.startTransition(() => setPayload_(v))
-    }, [setPayload_])
+      setPayload = (v) => React.startTransition(() => setPayload_(v));
+    }, [setPayload_]);
 
     React.useEffect(() => {
-      return listenNavigation(() => onNavigation())
-    }, [])
+      return listenNavigation(() => onNavigation());
+    }, []);
 
-    return payload.root
+    return payload.root;
   }
 
   const browserRoot = (
@@ -40,40 +40,40 @@ async function hydrate(): Promise<void> {
         <BrowserRoot />
       </GlobalErrorBoundary>
     </React.StrictMode>
-  )
+  );
 
   if ('__NO_HYDRATE' in globalThis) {
-    createRoot(document).render(browserRoot)
+    createRoot(document).render(browserRoot);
   } else {
-    hydrateRoot(document, browserRoot)
+    hydrateRoot(document, browserRoot);
   }
 
   if (import.meta.hot) {
     import.meta.hot.on('rsc:update', () => {
-      window.history.replaceState({}, '', window.location.href)
-    })
+      window.history.replaceState({}, '', window.location.href);
+    });
   }
 }
 
 function listenNavigation(onNavigation: () => void): () => void {
-  window.addEventListener('popstate', onNavigation)
+  window.addEventListener('popstate', onNavigation);
 
-  const oldPushState = window.history.pushState
+  const oldPushState = window.history.pushState;
   window.history.pushState = function (...args) {
-    const res = oldPushState.apply(this, args)
-    onNavigation()
-    return res
-  }
+    const res = oldPushState.apply(this, args);
+    onNavigation();
+    return res;
+  };
 
-  const oldReplaceState = window.history.replaceState
+  const oldReplaceState = window.history.replaceState;
   window.history.replaceState = function (...args) {
-    const res = oldReplaceState.apply(this, args)
-    onNavigation()
-    return res
-  }
+    const res = oldReplaceState.apply(this, args);
+    onNavigation();
+    return res;
+  };
 
   function onClick(e: MouseEvent) {
-    let link = (e.target as Element).closest('a')
+    let link = (e.target as Element).closest('a');
     if (
       link &&
       link instanceof HTMLAnchorElement &&
@@ -88,18 +88,18 @@ function listenNavigation(onNavigation: () => void): () => void {
       !e.shiftKey &&
       !e.defaultPrevented
     ) {
-      e.preventDefault()
-      history.pushState(null, '', link.href)
+      e.preventDefault();
+      history.pushState(null, '', link.href);
     }
   }
-  document.addEventListener('click', onClick)
+  document.addEventListener('click', onClick);
 
   return () => {
-    document.removeEventListener('click', onClick)
-    window.removeEventListener('popstate', onNavigation)
-    window.history.pushState = oldPushState
-    window.history.replaceState = oldReplaceState
-  }
+    document.removeEventListener('click', onClick);
+    window.removeEventListener('popstate', onNavigation);
+    window.history.pushState = oldPushState;
+    window.history.replaceState = oldReplaceState;
+  };
 }
 
-hydrate()
+hydrate();

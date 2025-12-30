@@ -1,6 +1,6 @@
-"use server-entry";
+'use server-entry';
 
-import {Counter} from './Counter';
+import { Counter } from './Counter';
 import './RSC.css';
 
 export async function RSC() {

@@ -7,11 +7,11 @@ import {
   TemporaryReferenceSet,
   loadServerAction,
   ServerEntry,
-} from "react-server-dom-rspack/server.node";
-import type { ReactFormState } from "react-dom/client";
-import React from "react";
-import { parseRenderRequest } from "./request.tsx";
-import { renderHTML } from "./entry.ssr.tsx";
+} from 'react-server-dom-rspack/server.node';
+import type { ReactFormState } from 'react-dom/client';
+import React from 'react';
+import { parseRenderRequest } from './request.tsx';
+import { renderHTML } from './entry.ssr.tsx';
 
 // The schema of payload which is serialized into RSC stream on rsc environment
 // and deserialized on ssr/client environments.
@@ -42,15 +42,15 @@ async function handleRequest({
   request = renderRequest.request;
 
   // handle server function request
-  let returnValue: RscPayload["returnValue"] | undefined;
+  let returnValue: RscPayload['returnValue'] | undefined;
   let formState: ReactFormState | undefined;
   let temporaryReferences: TemporaryReferenceSet | undefined;
   let actionStatus: number | undefined;
   if (renderRequest.isAction === true) {
     if (renderRequest.actionId) {
       // action is called via `ReactClient.setServerCallback`.
-      const contentType = request.headers.get("content-type");
-      const body = contentType?.startsWith("multipart/form-data")
+      const contentType = request.headers.get('content-type');
+      const body = contentType?.startsWith('multipart/form-data')
         ? await request.formData()
         : await request.text();
       temporaryReferences = createTemporaryReferenceSet();
@@ -75,7 +75,7 @@ async function handleRequest({
       } catch (e) {
         // there's no single general obvious way to surface this error,
         // so explicitly return classic 500 response.
-        return new Response("Internal Server Error: server action failed", {
+        return new Response('Internal Server Error: server action failed', {
           status: 500,
         });
       }
@@ -91,7 +91,7 @@ async function handleRequest({
     return new Response(rscStream, {
       status: actionStatus,
       headers: {
-        "content-type": "text/x-component;charset=utf-8",
+        'content-type': 'text/x-component;charset=utf-8',
       },
     });
   }
@@ -102,33 +102,36 @@ async function handleRequest({
     formState,
     nonce,
     // allow quick simulation of javascript disabled browser
-    debugNojs: renderRequest.url.searchParams.has("__nojs"),
+    debugNojs: renderRequest.url.searchParams.has('__nojs'),
   });
 
   // respond html
   return new Response(ssrResult.stream, {
     status: ssrResult.status,
     headers: {
-      "content-type": "text/html;charset=utf-8",
+      'content-type': 'text/html;charset=utf-8',
     },
   });
 }
 
 async function handler(request: Request, id?: number): Promise<Response> {
-  const { Todos } = await import("../Todos.tsx");
+  const { Todos } = await import('../Todos.tsx');
   const serverEntry = Todos as ServerEntry<typeof Todos>;
   const nonce = !process.env.NO_CSP ? crypto.randomUUID() : undefined;
   const nonceMeta = nonce && <meta property="csp-nonce" nonce={nonce} />;
   const root = (
     <>
       {nonceMeta}
-      {
-        serverEntry.entryCssFiles
-          ? serverEntry.entryCssFiles.map(href => (
-            <link key={href} rel="stylesheet" href={href} precedence="default"></link>
+      {serverEntry.entryCssFiles
+        ? serverEntry.entryCssFiles.map((href) => (
+            <link
+              key={href}
+              rel="stylesheet"
+              href={href}
+              precedence="default"
+            ></link>
           ))
-          : null
-      }
+        : null}
       <Todos id={id} />
     </>
   );
@@ -138,7 +141,7 @@ async function handler(request: Request, id?: number): Promise<Response> {
     bootstrapScripts: serverEntry.entryJsFiles,
     nonce,
   });
-  if (nonce && response.headers.get("content-type")?.includes("text/html")) {
+  if (nonce && response.headers.get('content-type')?.includes('text/html')) {
     const cspValue = [
       `default-src 'self';`,
       // `unsafe-eval` is required during dev since React uses eval for findSourceMapURL feature
@@ -151,8 +154,8 @@ async function handler(request: Request, id?: number): Promise<Response> {
       import.meta.hot && `worker-src 'self' blob:;`,
     ]
       .filter(Boolean)
-      .join("");
-    response.headers.set("content-security-policy", cspValue);
+      .join('');
+    response.headers.set('content-security-policy', cspValue);
   }
   return response;
 }

@@ -1,11 +1,11 @@
-"use server-entry";
+'use server-entry';
 
-import type { PageProps } from "../framework/ssg";
-import { Counter } from "../components/Counter";
+import type { PageProps } from '../framework/ssg';
+import { Counter } from '../components/Counter';
 import { Nav } from '../components/Nav';
 import '../components/style.css';
 
-export default function Index({pages, currentPage}: PageProps) {
+export default function Index({ pages, currentPage }: PageProps) {
   return (
     <html>
       <head>

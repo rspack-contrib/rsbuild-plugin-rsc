@@ -1,6 +1,6 @@
-'use client'
+'use client';
 
-import React from 'react'
+import React from 'react';
 
 // Minimal ErrorBoundary example to handle errors globally on browser
 export function GlobalErrorBoundary(props: { children?: React.ReactNode }) {
@@ -8,34 +8,34 @@ export function GlobalErrorBoundary(props: { children?: React.ReactNode }) {
     <ErrorBoundary errorComponent={DefaultGlobalErrorPage}>
       {props.children}
     </ErrorBoundary>
-  )
+  );
 }
 
 // https://github.com/vercel/next.js/blob/33f8428f7066bf8b2ec61f025427ceb2a54c4bdf/packages/next/src/client/components/error-boundary.tsx
 // https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary
 class ErrorBoundary extends React.Component<{
-  children?: React.ReactNode
+  children?: React.ReactNode;
   errorComponent: React.FC<{
-    error: Error
-    reset: () => void
-  }>
+    error: Error;
+    reset: () => void;
+  }>;
 }> {
-  state: { error?: Error } = {}
+  state: { error?: Error } = {};
 
   static getDerivedStateFromError(error: Error) {
-    return { error }
+    return { error };
   }
 
   reset = () => {
-    this.setState({ error: null })
-  }
+    this.setState({ error: null });
+  };
 
   render() {
-    const error = this.state.error
+    const error = this.state.error;
     if (error) {
-      return <this.props.errorComponent error={error} reset={this.reset} />
+      return <this.props.errorComponent error={error} reset={this.reset} />;
     }
-    return this.props.children
+    return this.props.children;
   }
 }
 
@@ -73,13 +73,13 @@ function DefaultGlobalErrorPage(props: { error: Error; reset: () => void }) {
         <button
           onClick={() => {
             React.startTransition(() => {
-              props.reset()
-            })
+              props.reset();
+            });
           }}
         >
           Reset
         </button>
       </body>
     </html>
-  )
+  );
 }

@@ -1,4 +1,4 @@
-"use server-entry";
+'use server-entry';
 
 import './Todos.css';
 import { Dialog } from './Dialog';
@@ -6,9 +6,9 @@ import { TodoDetail } from './TodoDetail';
 import { TodoCreate } from './TodoCreate';
 import { TodoList } from './TodoList';
 
-export async function Todos({id}: {id?: number}) {
+export async function Todos({ id }: { id?: number }) {
   return (
-    <html style={{colorScheme: 'dark light'}}>
+    <html style={{ colorScheme: 'dark light' }}>
       <head>
         <title>Todos</title>
       </head>
@@ -24,9 +24,7 @@ export async function Todos({id}: {id?: number}) {
           <div className="todo-column">
             <TodoList id={id} />
           </div>
-          {id != null 
-            ? <TodoDetail key={id} id={id} /> 
-            : <p>Select a todo</p>}
+          {id != null ? <TodoDetail key={id} id={id} /> : <p>Select a todo</p>}
         </main>
       </body>
     </html>

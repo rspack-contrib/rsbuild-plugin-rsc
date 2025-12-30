@@ -330,96 +330,98 @@ export const debugPrint = (...args: unknown[]) => {
     .map((arg) =>
       typeof arg === 'string'
         ? arg
-        : inspect(arg, { colors: process.stdout.isTTY })
+        : inspect(arg, { colors: process.stdout.isTTY }),
     )
-    .join(' ')
+    .join(' ');
 
-  const timestamp = new Date().toISOString().split('T')[1]
+  const timestamp = new Date().toISOString().split('T')[1];
 
-  return process.stdout.write(`[${timestamp}] ${prettyArgs}\n`)
-}
+  return process.stdout.write(`[${timestamp}] ${prettyArgs}\n`);
+};
 
 export async function waitFor(
-  millisOrCondition: number | (() => boolean)
+  millisOrCondition: number | (() => boolean),
 ): Promise<void> {
   if (typeof millisOrCondition === 'number') {
-    return new Promise((resolve) => setTimeout(resolve, millisOrCondition))
+    return new Promise((resolve) => setTimeout(resolve, millisOrCondition));
   }
 
   return new Promise((resolve) => {
     const interval = setInterval(() => {
       if (millisOrCondition()) {
-        clearInterval(interval)
-        resolve()
+        clearInterval(interval);
+        resolve();
       }
-    }, 100)
-  })
+    }, 100);
+  });
 }
 
 export async function retry<T>(
   fn: () => T | Promise<T>,
   duration: number = 3000,
   interval: number = 500,
-  description?: string
+  description?: string,
 ): Promise<T> {
   if (duration % interval !== 0) {
     throw new Error(
-      `invalid duration ${duration} and interval ${interval} mix, duration must be evenly divisible by interval`
-    )
+      `invalid duration ${duration} and interval ${interval} mix, duration must be evenly divisible by interval`,
+    );
   }
 
   for (let i = duration; i >= 0; i -= interval) {
     try {
-      return await fn()
+      return await fn();
     } catch (err) {
       if (i === 0) {
         console.error(
           `Failed to retry${
             description ? ` ${description}` : ''
-          } within ${duration}ms`
-        )
-        throw err
+          } within ${duration}ms`,
+        );
+        throw err;
       }
       debugPrint(
-        `Retrying${description ? ` ${description}` : ''} in ${interval}ms`
-      )
-      await waitFor(interval)
+        `Retrying${description ? ` ${description}` : ''} in ${interval}ms`,
+      );
+      await waitFor(interval);
     }
   }
 
-  throw new Error('Duration cannot be less than 0.')
+  throw new Error('Duration cannot be less than 0.');
 }
 
 export async function patchFile(
-    outputPath: string,
-    content: string | ((content: string | undefined) => string),
-    runWithTempContent?: (context: { newFile: boolean }) => Promise<void>
-  ): Promise<{ newFile: boolean }> {
-    const newFile = !fs.existsSync(outputPath)
-    await fs.promises.mkdir(path.dirname(outputPath), { recursive: true })
-    const previousContent = newFile ? undefined : await fs.promises.readFile(outputPath, 'utf-8')
+  outputPath: string,
+  content: string | ((content: string | undefined) => string),
+  runWithTempContent?: (context: { newFile: boolean }) => Promise<void>,
+): Promise<{ newFile: boolean }> {
+  const newFile = !fs.existsSync(outputPath);
+  await fs.promises.mkdir(path.dirname(outputPath), { recursive: true });
+  const previousContent = newFile
+    ? undefined
+    : await fs.promises.readFile(outputPath, 'utf-8');
 
-    await fs.promises.writeFile(
-      outputPath,
-      typeof content === 'function' ? content(previousContent) : content,
-      {
-        flush: true,
-      }
-    )
+  await fs.promises.writeFile(
+    outputPath,
+    typeof content === 'function' ? content(previousContent) : content,
+    {
+      flush: true,
+    },
+  );
 
-    if (runWithTempContent) {
-      try {
-        await runWithTempContent({ newFile })
-      } finally {
-        if (previousContent === undefined) {
-          await fs.promises.rm(outputPath)
-        } else {
-          await fs.promises.writeFile(outputPath, previousContent, {
-            flush: true,
-          })
-        }
+  if (runWithTempContent) {
+    try {
+      await runWithTempContent({ newFile });
+    } finally {
+      if (previousContent === undefined) {
+        await fs.promises.rm(outputPath);
+      } else {
+        await fs.promises.writeFile(outputPath, previousContent, {
+          flush: true,
+        });
       }
     }
-
-    return { newFile }
   }
+
+  return { newFile };
+}

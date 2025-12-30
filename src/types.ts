@@ -1,4 +1,4 @@
-import type { Rspack } from "@rsbuild/core";
+import type { Rspack } from '@rsbuild/core';
 
 export type PluginRSCOptions = {
   /**
@@ -17,7 +17,7 @@ export type PluginRSCOptions = {
     /**
      * The condition to match modules that must remain in the standard SSR (Node.js) layer.
      * * **Priority:** This rule has higher priority than `rsc`.
-     * * Use this to explicitly force specific files (e.g., server entry points) to stay 
+     * * Use this to explicitly force specific files (e.g., server entry points) to stay
      * in the standard Node.js environment, even if they overlap with the `rsc` pattern.
      */
     ssr?: Rspack.RuleSetCondition;

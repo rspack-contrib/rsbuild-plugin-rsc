@@ -1,8 +1,14 @@
-"use client";
+'use client';
 
-import { ReactNode, useRef } from "react";
+import { ReactNode, useRef } from 'react';
 
-export function Dialog({trigger, children}: {trigger: ReactNode, children: ReactNode}) {
+export function Dialog({
+  trigger,
+  children,
+}: {
+  trigger: ReactNode;
+  children: ReactNode;
+}) {
   let ref = useRef<HTMLDialogElement | null>(null);
   return (
     <>

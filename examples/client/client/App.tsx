@@ -1,7 +1,14 @@
 import { type ReactElement, Suspense, use } from 'react';
-import { createFromFetch, createTemporaryReferenceSet, encodeReply } from 'react-server-dom-rspack/client.browser';
+import {
+  createFromFetch,
+  createTemporaryReferenceSet,
+  encodeReply,
+} from 'react-server-dom-rspack/client.browser';
 
-async function fetchRSC<T>(url: string | URL | Request, options?: RequestInit): Promise<T> {
+async function fetchRSC<T>(
+  url: string | URL | Request,
+  options?: RequestInit,
+): Promise<T> {
   const temporaryReferences = createTemporaryReferenceSet();
   const response = fetch(url, {
     ...options,
@@ -9,9 +16,10 @@ async function fetchRSC<T>(url: string | URL | Request, options?: RequestInit): 
       Accept: 'text/x-component',
       ...options?.headers,
     },
-    body: options && 'body' in options 
-      ? await encodeReply(options.body, { temporaryReferences })
-      : undefined,
+    body:
+      options && 'body' in options
+        ? await encodeReply(options.body, { temporaryReferences })
+        : undefined,
   });
 
   return createFromFetch<T>(response, { temporaryReferences });

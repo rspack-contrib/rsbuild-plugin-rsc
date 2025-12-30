@@ -6,7 +6,8 @@ export const PLUGIN_RSC_NAME = 'rsbuild:rsc';
 
 const { createRscPlugins } = rspack.experiments;
 
-export const RSC_LAYERS_NAMES: typeof rspack.experiments.RSC_LAYERS_NAMES = rspack.experiments.RSC_LAYERS_NAMES;
+export const RSC_LAYERS_NAMES: typeof rspack.experiments.RSC_LAYERS_NAMES =
+  rspack.experiments.RSC_LAYERS_NAMES;
 
 const ENVIRONMENT_NAMES = {
   SERVER: 'server',
@@ -79,8 +80,8 @@ export const pluginRSC = (
             RSC_LAYERS_NAMES.REACT_SERVER_COMPONENTS,
             RSC_LAYERS_NAMES.ACTION_BROWSER,
           ])
-          .resolve.conditionNames.add("react-server")
-          .add("...");
+          .resolve.conditionNames.add('react-server')
+          .add('...');
 
         chain.plugin('rsc-server').use(rscPlugins.ServerPlugin);
       }

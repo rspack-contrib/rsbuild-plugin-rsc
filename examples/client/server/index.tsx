@@ -6,9 +6,9 @@ import {
   decodeAction,
   decodeFormState,
   type TemporaryReferenceSet,
-} from "react-server-dom-rspack/server.node";
-import type { ReactFormState } from "react-dom/client";
-import { RSC } from "./RSC";
+} from 'react-server-dom-rspack/server.node';
+import type { ReactFormState } from 'react-dom/client';
+import { RSC } from './RSC';
 
 export type RscPayload = {
   root: React.ReactNode;
@@ -17,15 +17,15 @@ export type RscPayload = {
 };
 
 async function handler(request: Request): Promise<Response> {
-  const isAction = request.method === "POST";
-  let returnValue: RscPayload["returnValue"] | undefined;
+  const isAction = request.method === 'POST';
+  let returnValue: RscPayload['returnValue'] | undefined;
   let formState: ReactFormState | undefined;
   let temporaryReferences: TemporaryReferenceSet | undefined;
   if (isAction) {
-    const actionId = request.headers.get("x-rsc-action");
+    const actionId = request.headers.get('x-rsc-action');
     if (actionId) {
-      const contentType = request.headers.get("content-type");
-      const body = contentType?.startsWith("multipart/form-data")
+      const contentType = request.headers.get('content-type');
+      const body = contentType?.startsWith('multipart/form-data')
         ? await request.formData()
         : await request.text();
       temporaryReferences = createTemporaryReferenceSet();
@@ -52,7 +52,7 @@ async function handler(request: Request): Promise<Response> {
   return new Response(rscStream, {
     status: returnValue?.ok === false ? 500 : undefined,
     headers: {
-      "content-type": "text/x-component;charset=utf-8",
+      'content-type': 'text/x-component;charset=utf-8',
     },
   });
 }

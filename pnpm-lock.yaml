@@ -5,12 +5,15 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  '@rspack/core': npm:@rspack-canary/core@1.7.0-canary-4941195f-20251224083309
+  '@rspack/core': npm:@rspack-canary/core@1.7.0-canary-9a468043-20251230094321
 
 importers:
 
   .:
     devDependencies:
+      '@biomejs/biome':
+        specifier: 2.3.10
+        version: 2.3.10
       '@playwright/test':
         specifier: ^1.57.0
         version: 1.57.0
@@ -151,7 +154,7 @@ importers:
     devDependencies:
       '@rsbuild/plugin-react':
         specifier: ^1.4.2
-        version: 1.4.2(@rsbuild/core@1.7.0-beta.1)
+        version: 1.4.2(@rsbuild/core@1.6.15)
       '@types/react-dom':
         specifier: ^19.2.3
         version: 19.2.3(@types/react@19.2.7)
@@ -235,6 +238,59 @@ packages:
   '@babel/helper-validator-identifier@7.28.5':
     resolution: {integrity: sha512-qSs4ifwzKJSV39ucNjsvc6WVHs6b7S03sOh2OcHF9UHfVPqWWALUsNUVzhSBiItjRZoLHx7nIarVjqKVusUZ1Q==}
     engines: {node: '>=6.9.0'}
+
+  '@biomejs/biome@2.3.10':
+    resolution: {integrity: sha512-/uWSUd1MHX2fjqNLHNL6zLYWBbrJeG412/8H7ESuK8ewoRoMPUgHDebqKrPTx/5n6f17Xzqc9hdg3MEqA5hXnQ==}
+    engines: {node: '>=14.21.3'}
+    hasBin: true
+
+  '@biomejs/cli-darwin-arm64@2.3.10':
+    resolution: {integrity: sha512-M6xUjtCVnNGFfK7HMNKa593nb7fwNm43fq1Mt71kpLpb+4mE7odO8W/oWVDyBVO4ackhresy1ZYO7OJcVo/B7w==}
+    engines: {node: '>=14.21.3'}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@biomejs/cli-darwin-x64@2.3.10':
+    resolution: {integrity: sha512-Vae7+V6t/Avr8tVbFNjnFSTKZogZHFYl7MMH62P/J1kZtr0tyRQ9Fe0onjqjS2Ek9lmNLmZc/VR5uSekh+p1fg==}
+    engines: {node: '>=14.21.3'}
+    cpu: [x64]
+    os: [darwin]
+
+  '@biomejs/cli-linux-arm64-musl@2.3.10':
+    resolution: {integrity: sha512-B9DszIHkuKtOH2IFeeVkQmSMVUjss9KtHaNXquYYWCjH8IstNgXgx5B0aSBQNr6mn4RcKKRQZXn9Zu1rM3O0/A==}
+    engines: {node: '>=14.21.3'}
+    cpu: [arm64]
+    os: [linux]
+
+  '@biomejs/cli-linux-arm64@2.3.10':
+    resolution: {integrity: sha512-hhPw2V3/EpHKsileVOFynuWiKRgFEV48cLe0eA+G2wO4SzlwEhLEB9LhlSrVeu2mtSn205W283LkX7Fh48CaxA==}
+    engines: {node: '>=14.21.3'}
+    cpu: [arm64]
+    os: [linux]
+
+  '@biomejs/cli-linux-x64-musl@2.3.10':
+    resolution: {integrity: sha512-QTfHZQh62SDFdYc2nfmZFuTm5yYb4eO1zwfB+90YxUumRCR171tS1GoTX5OD0wrv4UsziMPmrePMtkTnNyYG3g==}
+    engines: {node: '>=14.21.3'}
+    cpu: [x64]
+    os: [linux]
+
+  '@biomejs/cli-linux-x64@2.3.10':
+    resolution: {integrity: sha512-wwAkWD1MR95u+J4LkWP74/vGz+tRrIQvr8kfMMJY8KOQ8+HMVleREOcPYsQX82S7uueco60L58Wc6M1I9WA9Dw==}
+    engines: {node: '>=14.21.3'}
+    cpu: [x64]
+    os: [linux]
+
+  '@biomejs/cli-win32-arm64@2.3.10':
+    resolution: {integrity: sha512-o7lYc9n+CfRbHvkjPhm8s9FgbKdYZu5HCcGVMItLjz93EhgJ8AM44W+QckDqLA9MKDNFrR8nPbO4b73VC5kGGQ==}
+    engines: {node: '>=14.21.3'}
+    cpu: [arm64]
+    os: [win32]
+
+  '@biomejs/cli-win32-x64@2.3.10':
+    resolution: {integrity: sha512-pHEFgq7dUEsKnqG9mx9bXihxGI49X+ar+UBrEIj3Wqj3UCZp1rNgV+OoyjFgcXsjCWpuEAF4VJdkZr3TrWdCbQ==}
+    engines: {node: '>=14.21.3'}
+    cpu: [x64]
+    os: [win32]
 
   '@emnapi/core@1.7.1':
     resolution: {integrity: sha512-o1uhUASyo921r2XtHYOHy7gdkGLge8ghBEQHMWmyJFoXlpU58kIrhhN3w26lpQb6dspetweapMn2CSNwQ8I4wg==}
@@ -437,60 +493,60 @@ packages:
       typescript:
         optional: true
 
-  '@rspack-canary/binding-darwin-arm64@1.7.0-canary-4941195f-20251224083309':
-    resolution: {integrity: sha512-kuHC7GA+60IFm0j1L30L/kBveQLYoWmH6BNBw9RkM6v5U1VWC/Doo7RrYXhWLoC3rx7M+jk+o/0C3S0kbmshnw==}
+  '@rspack-canary/binding-darwin-arm64@1.7.0-canary-9a468043-20251230094321':
+    resolution: {integrity: sha512-akcVCqU9dlzlSl9l0MYajjX66iY+cGnsRKrxGtTCYFvz2T3VC7bTQPVXDwgA7k1K8BNv/Y0Kh4dc8089qkrVUw==}
     cpu: [arm64]
     os: [darwin]
 
-  '@rspack-canary/binding-darwin-x64@1.7.0-canary-4941195f-20251224083309':
-    resolution: {integrity: sha512-La/Ex18j/9FcbtVcminbFBUJohnOTy7JRBx2/5cIBBo02P56b/c85NiFdCGkiOJDDhdPF6nc4SH1i/dADcA0Aw==}
+  '@rspack-canary/binding-darwin-x64@1.7.0-canary-9a468043-20251230094321':
+    resolution: {integrity: sha512-BJAEMSLt6MTpvXtg+8SIgeetM/W8+bnClM3GeQZnS7hWubPCZZ2FBjDh3MlZasR9FW6yygfNhZI+dwcf/yZIVA==}
     cpu: [x64]
     os: [darwin]
 
-  '@rspack-canary/binding-linux-arm64-gnu@1.7.0-canary-4941195f-20251224083309':
-    resolution: {integrity: sha512-IoKD6pUzwYkJs1qibq/mjz4bZ0riA8yYxuw/mrECjdYwoT7Y93XHt51FTcIcjbTu9C/Ghd0lu1RfC1UN32Up2w==}
+  '@rspack-canary/binding-linux-arm64-gnu@1.7.0-canary-9a468043-20251230094321':
+    resolution: {integrity: sha512-6kr5DId3XEoCCeeg4MjJD2W/Qvh19PNQ+OeCHkgpuDvPrw84GecVdP8RsAp3b64EYphkmy9PNC6zxsONZHFv/A==}
     cpu: [arm64]
     os: [linux]
 
-  '@rspack-canary/binding-linux-arm64-musl@1.7.0-canary-4941195f-20251224083309':
-    resolution: {integrity: sha512-pF+rliObn23i0FYxGpgHbAt59VU9e1TeMge8R8dcn1PeH7PbAG+WLCWy9Ch1uOAxzTqPaDn8t9DTLa+94tRLWw==}
+  '@rspack-canary/binding-linux-arm64-musl@1.7.0-canary-9a468043-20251230094321':
+    resolution: {integrity: sha512-3+ofu6DlBAY3QgCTSFYpJAIvhOLFe7bnbSjWe/0EU1ZaGyOD0keOPYl7LuLd/gk2+ZqBrOfQ5XXJPPHVg7K99g==}
     cpu: [arm64]
     os: [linux]
 
-  '@rspack-canary/binding-linux-x64-gnu@1.7.0-canary-4941195f-20251224083309':
-    resolution: {integrity: sha512-ENMrAcqPDdzfwbo+epskIE7k8cbyFg+KwF7CN+VmEGZNgqKkBgxerW/YEOL7MxdVaevLEVR11d47EOCtUEozng==}
+  '@rspack-canary/binding-linux-x64-gnu@1.7.0-canary-9a468043-20251230094321':
+    resolution: {integrity: sha512-U4+wh+OHCvyX0oNFpufAkpxE0LHHlmBuvm4XtpIUQoNTB0hv2OCcMHihCDptN3xH6nMQoW2t5sCYhbUKQAz8EQ==}
     cpu: [x64]
     os: [linux]
 
-  '@rspack-canary/binding-linux-x64-musl@1.7.0-canary-4941195f-20251224083309':
-    resolution: {integrity: sha512-+htjN8fW/b7PpdibQd9P1PpuFO+2brRqJqjBJ6mERHyo1BBVP1G8aHogkwWcLkExSOxuuCDCIW6DCSYWbuksQA==}
+  '@rspack-canary/binding-linux-x64-musl@1.7.0-canary-9a468043-20251230094321':
+    resolution: {integrity: sha512-tRBxzju/Kb0rh0UYHJP4OkQUHM9zsKbs7E6GUMNqVYRzyptAqw9Zd1WuJfK+3c9/YG50GDGL55i5tNb3PEqNRA==}
     cpu: [x64]
     os: [linux]
 
-  '@rspack-canary/binding-wasm32-wasi@1.7.0-canary-4941195f-20251224083309':
-    resolution: {integrity: sha512-RAXe4gcraDeJKfSUMIqRpItVmS9aQCL0lCANz9EF1nRiRfSHVW7k3/udXzqkZZ259TrRF5GE7a7sDSFtcADuAg==}
+  '@rspack-canary/binding-wasm32-wasi@1.7.0-canary-9a468043-20251230094321':
+    resolution: {integrity: sha512-8RrpmFUaqENSOjhl9O3eLf5tPJm649QFQ4TiJVepGOvgqH9fU8I1jPimr4bDcT5JMovAdUXWAZPOxl5SNeWdhw==}
     cpu: [wasm32]
 
-  '@rspack-canary/binding-win32-arm64-msvc@1.7.0-canary-4941195f-20251224083309':
-    resolution: {integrity: sha512-8jY4ieNgqv/OuvVP6q6Gwnm236W2p3F93Xkpt/T46e0fXEBZDHrxSBFrymiUjAOrg4WcR62sNGfrpsUgCZznLQ==}
+  '@rspack-canary/binding-win32-arm64-msvc@1.7.0-canary-9a468043-20251230094321':
+    resolution: {integrity: sha512-HRczsRp4qTPSPS+GnkYgQ3IEg1QQFXKshoZ8QfRRte1jirOJH2Xb1nRC27iVFvJ1kAg7/Qis9p/2QjYZo+4XPQ==}
     cpu: [arm64]
     os: [win32]
 
-  '@rspack-canary/binding-win32-ia32-msvc@1.7.0-canary-4941195f-20251224083309':
-    resolution: {integrity: sha512-IPWGy/IxcbWgtMDTbEdkU5/Qs3EfBhNbqytc3BdLrnm2ISh1/GFB4zfiqb1mn2sNrcAag5xZUb8CKrHfCmuiiw==}
+  '@rspack-canary/binding-win32-ia32-msvc@1.7.0-canary-9a468043-20251230094321':
+    resolution: {integrity: sha512-vATr+/3UWYqsbw4StgEPFZzpClsNq/MvqtrkZ6ngGuJhrdgnaZR/SFmgsEVQ2TIDbYz6ByldHawbFmQkFtpNrg==}
     cpu: [ia32]
     os: [win32]
 
-  '@rspack-canary/binding-win32-x64-msvc@1.7.0-canary-4941195f-20251224083309':
-    resolution: {integrity: sha512-F3ad/lpoa/CHk/r/Pm1aLRWEusLHrSOTmnoYetqTocpqlrXRpVzcDuSgUuAyFrumS5hgFOjO5NbWB/GE17l8tw==}
+  '@rspack-canary/binding-win32-x64-msvc@1.7.0-canary-9a468043-20251230094321':
+    resolution: {integrity: sha512-6Mk+qnxh2dukw2K1odfh/U3kZsQlNYEjlmEgHgTiprOcSXt0+xxLauJ22p0Pvd1mMcKP3Ckn8KIU0zPiOKzk4Q==}
     cpu: [x64]
     os: [win32]
 
-  '@rspack-canary/binding@1.7.0-canary-4941195f-20251224083309':
-    resolution: {integrity: sha512-p8nn5MFq5pnVaoquGHadzsl7wX6Fj+l0wcrw+VuAgT78nPS8R+uocm0cDF860LJlmwlZ1mD9P8Bqz4PFvt3wjA==}
+  '@rspack-canary/binding@1.7.0-canary-9a468043-20251230094321':
+    resolution: {integrity: sha512-XRXLHITM5hLi2d799NeHcq3gyZ8KUVsX5Gb00SRMv4jN5U7ee5UHO6vhnKbP0fQBhXCS2vb+VlXJ4+yivDgzFg==}
 
-  '@rspack-canary/core@1.7.0-canary-4941195f-20251224083309':
-    resolution: {integrity: sha512-tl2QMaO0/AHAxhOR7C/C5R+7AAA5ItcL4nppR0TRagYyALV8QuUB0r/dDLzigL+rOPTeZGBry5peSf4DdM4HIQ==}
+  '@rspack-canary/core@1.7.0-canary-9a468043-20251230094321':
+    resolution: {integrity: sha512-DoSCGHQ8t50+R1GPS1TNl6qIe3mvhqWuM9GkPXfnXnrOlCCvSB1J7OBbe697Omgupl1kxVRvsKcxhK71TEId/Q==}
     engines: {node: '>=18.12.0'}
     peerDependencies:
       '@swc/helpers': '>=0.5.1'
@@ -1238,6 +1294,41 @@ snapshots:
   '@babel/helper-validator-identifier@7.28.5':
     optional: true
 
+  '@biomejs/biome@2.3.10':
+    optionalDependencies:
+      '@biomejs/cli-darwin-arm64': 2.3.10
+      '@biomejs/cli-darwin-x64': 2.3.10
+      '@biomejs/cli-linux-arm64': 2.3.10
+      '@biomejs/cli-linux-arm64-musl': 2.3.10
+      '@biomejs/cli-linux-x64': 2.3.10
+      '@biomejs/cli-linux-x64-musl': 2.3.10
+      '@biomejs/cli-win32-arm64': 2.3.10
+      '@biomejs/cli-win32-x64': 2.3.10
+
+  '@biomejs/cli-darwin-arm64@2.3.10':
+    optional: true
+
+  '@biomejs/cli-darwin-x64@2.3.10':
+    optional: true
+
+  '@biomejs/cli-linux-arm64-musl@2.3.10':
+    optional: true
+
+  '@biomejs/cli-linux-arm64@2.3.10':
+    optional: true
+
+  '@biomejs/cli-linux-x64-musl@2.3.10':
+    optional: true
+
+  '@biomejs/cli-linux-x64@2.3.10':
+    optional: true
+
+  '@biomejs/cli-win32-arm64@2.3.10':
+    optional: true
+
+  '@biomejs/cli-win32-x64@2.3.10':
+    optional: true
+
   '@emnapi/core@1.7.1':
     dependencies:
       '@emnapi/wasi-threads': 1.1.0
@@ -1389,7 +1480,7 @@ snapshots:
 
   '@rsbuild/core@1.6.15':
     dependencies:
-      '@rspack/core': '@rspack-canary/core@1.7.0-canary-4941195f-20251224083309(@swc/helpers@0.5.17)'
+      '@rspack/core': '@rspack-canary/core@1.7.0-canary-9a468043-20251230094321(@swc/helpers@0.5.17)'
       '@rspack/lite-tapable': 1.1.0
       '@swc/helpers': 0.5.17
       core-js: 3.47.0
@@ -1397,7 +1488,7 @@ snapshots:
 
   '@rsbuild/core@1.7.0-beta.1':
     dependencies:
-      '@rspack/core': '@rspack-canary/core@1.7.0-canary-4941195f-20251224083309(@swc/helpers@0.5.17)'
+      '@rspack/core': '@rspack-canary/core@1.7.0-canary-9a468043-20251230094321(@swc/helpers@0.5.17)'
       '@rspack/lite-tapable': 1.1.0
       '@swc/helpers': 0.5.17
       core-js: 3.47.0
@@ -1406,14 +1497,6 @@ snapshots:
   '@rsbuild/plugin-react@1.4.2(@rsbuild/core@1.6.15)':
     dependencies:
       '@rsbuild/core': 1.6.15
-      '@rspack/plugin-react-refresh': 1.5.3(react-refresh@0.18.0)
-      react-refresh: 0.18.0
-    transitivePeerDependencies:
-      - webpack-hot-middleware
-
-  '@rsbuild/plugin-react@1.4.2(@rsbuild/core@1.7.0-beta.1)':
-    dependencies:
-      '@rsbuild/core': 1.7.0-beta.1
       '@rspack/plugin-react-refresh': 1.5.3(react-refresh@0.18.0)
       react-refresh: 0.18.0
     transitivePeerDependencies:
@@ -1428,55 +1511,55 @@ snapshots:
     transitivePeerDependencies:
       - '@typescript/native-preview'
 
-  '@rspack-canary/binding-darwin-arm64@1.7.0-canary-4941195f-20251224083309':
+  '@rspack-canary/binding-darwin-arm64@1.7.0-canary-9a468043-20251230094321':
     optional: true
 
-  '@rspack-canary/binding-darwin-x64@1.7.0-canary-4941195f-20251224083309':
+  '@rspack-canary/binding-darwin-x64@1.7.0-canary-9a468043-20251230094321':
     optional: true
 
-  '@rspack-canary/binding-linux-arm64-gnu@1.7.0-canary-4941195f-20251224083309':
+  '@rspack-canary/binding-linux-arm64-gnu@1.7.0-canary-9a468043-20251230094321':
     optional: true
 
-  '@rspack-canary/binding-linux-arm64-musl@1.7.0-canary-4941195f-20251224083309':
+  '@rspack-canary/binding-linux-arm64-musl@1.7.0-canary-9a468043-20251230094321':
     optional: true
 
-  '@rspack-canary/binding-linux-x64-gnu@1.7.0-canary-4941195f-20251224083309':
+  '@rspack-canary/binding-linux-x64-gnu@1.7.0-canary-9a468043-20251230094321':
     optional: true
 
-  '@rspack-canary/binding-linux-x64-musl@1.7.0-canary-4941195f-20251224083309':
+  '@rspack-canary/binding-linux-x64-musl@1.7.0-canary-9a468043-20251230094321':
     optional: true
 
-  '@rspack-canary/binding-wasm32-wasi@1.7.0-canary-4941195f-20251224083309':
+  '@rspack-canary/binding-wasm32-wasi@1.7.0-canary-9a468043-20251230094321':
     dependencies:
       '@napi-rs/wasm-runtime': 1.0.7
     optional: true
 
-  '@rspack-canary/binding-win32-arm64-msvc@1.7.0-canary-4941195f-20251224083309':
+  '@rspack-canary/binding-win32-arm64-msvc@1.7.0-canary-9a468043-20251230094321':
     optional: true
 
-  '@rspack-canary/binding-win32-ia32-msvc@1.7.0-canary-4941195f-20251224083309':
+  '@rspack-canary/binding-win32-ia32-msvc@1.7.0-canary-9a468043-20251230094321':
     optional: true
 
-  '@rspack-canary/binding-win32-x64-msvc@1.7.0-canary-4941195f-20251224083309':
+  '@rspack-canary/binding-win32-x64-msvc@1.7.0-canary-9a468043-20251230094321':
     optional: true
 
-  '@rspack-canary/binding@1.7.0-canary-4941195f-20251224083309':
+  '@rspack-canary/binding@1.7.0-canary-9a468043-20251230094321':
     optionalDependencies:
-      '@rspack/binding-darwin-arm64': '@rspack-canary/binding-darwin-arm64@1.7.0-canary-4941195f-20251224083309'
-      '@rspack/binding-darwin-x64': '@rspack-canary/binding-darwin-x64@1.7.0-canary-4941195f-20251224083309'
-      '@rspack/binding-linux-arm64-gnu': '@rspack-canary/binding-linux-arm64-gnu@1.7.0-canary-4941195f-20251224083309'
-      '@rspack/binding-linux-arm64-musl': '@rspack-canary/binding-linux-arm64-musl@1.7.0-canary-4941195f-20251224083309'
-      '@rspack/binding-linux-x64-gnu': '@rspack-canary/binding-linux-x64-gnu@1.7.0-canary-4941195f-20251224083309'
-      '@rspack/binding-linux-x64-musl': '@rspack-canary/binding-linux-x64-musl@1.7.0-canary-4941195f-20251224083309'
-      '@rspack/binding-wasm32-wasi': '@rspack-canary/binding-wasm32-wasi@1.7.0-canary-4941195f-20251224083309'
-      '@rspack/binding-win32-arm64-msvc': '@rspack-canary/binding-win32-arm64-msvc@1.7.0-canary-4941195f-20251224083309'
-      '@rspack/binding-win32-ia32-msvc': '@rspack-canary/binding-win32-ia32-msvc@1.7.0-canary-4941195f-20251224083309'
-      '@rspack/binding-win32-x64-msvc': '@rspack-canary/binding-win32-x64-msvc@1.7.0-canary-4941195f-20251224083309'
+      '@rspack/binding-darwin-arm64': '@rspack-canary/binding-darwin-arm64@1.7.0-canary-9a468043-20251230094321'
+      '@rspack/binding-darwin-x64': '@rspack-canary/binding-darwin-x64@1.7.0-canary-9a468043-20251230094321'
+      '@rspack/binding-linux-arm64-gnu': '@rspack-canary/binding-linux-arm64-gnu@1.7.0-canary-9a468043-20251230094321'
+      '@rspack/binding-linux-arm64-musl': '@rspack-canary/binding-linux-arm64-musl@1.7.0-canary-9a468043-20251230094321'
+      '@rspack/binding-linux-x64-gnu': '@rspack-canary/binding-linux-x64-gnu@1.7.0-canary-9a468043-20251230094321'
+      '@rspack/binding-linux-x64-musl': '@rspack-canary/binding-linux-x64-musl@1.7.0-canary-9a468043-20251230094321'
+      '@rspack/binding-wasm32-wasi': '@rspack-canary/binding-wasm32-wasi@1.7.0-canary-9a468043-20251230094321'
+      '@rspack/binding-win32-arm64-msvc': '@rspack-canary/binding-win32-arm64-msvc@1.7.0-canary-9a468043-20251230094321'
+      '@rspack/binding-win32-ia32-msvc': '@rspack-canary/binding-win32-ia32-msvc@1.7.0-canary-9a468043-20251230094321'
+      '@rspack/binding-win32-x64-msvc': '@rspack-canary/binding-win32-x64-msvc@1.7.0-canary-9a468043-20251230094321'
 
-  '@rspack-canary/core@1.7.0-canary-4941195f-20251224083309(@swc/helpers@0.5.17)':
+  '@rspack-canary/core@1.7.0-canary-9a468043-20251230094321(@swc/helpers@0.5.17)':
     dependencies:
       '@module-federation/runtime-tools': 0.21.6
-      '@rspack/binding': '@rspack-canary/binding@1.7.0-canary-4941195f-20251224083309'
+      '@rspack/binding': '@rspack-canary/binding@1.7.0-canary-9a468043-20251230094321'
       '@rspack/lite-tapable': 1.1.0
     optionalDependencies:
       '@swc/helpers': 0.5.17
