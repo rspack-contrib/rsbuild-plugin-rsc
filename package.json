@@ -4,7 +4,7 @@
   "description": "React server component plugin for Rsbuild",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rspack-contrib/rsbuild-plugin-rsc.git",
+    "url": "git+https://github.com/rstackjs/rsbuild-plugin-rsc.git",
     "directory": "packages/plugin-rsc"
   },
   "license": "MIT",
