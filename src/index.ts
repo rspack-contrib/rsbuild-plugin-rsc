@@ -76,9 +76,7 @@ export const pluginRSC = (
           rule = rule.exclude.add(ssr).end();
         }
         rule
-          .issuerLayer([
-            RSC_LAYERS_NAMES.REACT_SERVER_COMPONENTS,
-          ])
+          .issuerLayer([RSC_LAYERS_NAMES.REACT_SERVER_COMPONENTS])
           .resolve.conditionNames.add('react-server')
           .add('...');
 
