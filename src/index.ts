@@ -9,17 +9,15 @@ const { createRscPlugins } = rspack.experiments;
 export const LAYERS_NAMES: typeof rspack.experiments.RSC_LAYERS_NAMES =
   rspack.experiments.RSC_LAYERS_NAMES;
 
-const ENVIRONMENT_NAMES = {
-  SERVER: 'server',
-  CLIENT: 'client',
-};
-
 export const pluginRSC = (
   pluginOptions: PluginRSCOptions = {},
 ): RsbuildPlugin => ({
   name: PLUGIN_RSC_NAME,
 
   setup(api) {
+    const { server = 'server', client = 'client' } =
+      pluginOptions.environments || {};
+
     api.modifyRsbuildConfig((config, { mergeRsbuildConfig }) => {
       const rscEnvironmentsConfig: RsbuildConfig = {
         tools: {
@@ -30,12 +28,12 @@ export const pluginRSC = (
           },
         },
         environments: {
-          server: {
+          [server]: {
             output: {
               target: 'node',
             },
           },
-          client: {
+          [client]: {
             output: {
               target: 'web',
             },
@@ -64,7 +62,7 @@ export const pluginRSC = (
         rscPlugins = createRscPlugins();
       }
 
-      if (environment.name === ENVIRONMENT_NAMES.SERVER) {
+      if (environment.name === server) {
         const { rsc, ssr } = pluginOptions.layers || {};
 
         if (ssr) {
@@ -91,7 +89,7 @@ export const pluginRSC = (
 
         chain.plugin('rsc-server').use(rscPlugins.ServerPlugin);
       }
-      if (environment.name === ENVIRONMENT_NAMES.CLIENT) {
+      if (environment.name === client) {
         chain.plugin('rsc-client').use(rscPlugins.ClientPlugin);
       }
     });

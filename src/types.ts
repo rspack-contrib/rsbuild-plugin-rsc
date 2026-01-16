@@ -2,6 +2,26 @@ import type { Rspack } from '@rsbuild/core';
 
 export type PluginRSCOptions = {
   /**
+   * Configuration for customizing Rsbuild environment names.
+   * Use this if you want to rename the default 'server' or 'client' environments
+   * to avoid conflicts or match your project's naming convention.
+   */
+  environments?: {
+    /**
+     * The name of the environment for React Server Components (Server Bundle).
+     * This environment compiles the server-side logic (RSC, Server Actions).
+     * * @default 'server'
+     */
+    server?: string;
+
+    /**
+     * The name of the environment for Client Components (Browser Bundle).
+     * This environment compiles the assets served to the browser.
+     * * @default 'client'
+     */
+    client?: string;
+  };
+  /**
    * Configuration for assigning modules to specific Rspack layers.
    * * This determines which modules are processed as React Server Components (RSC)
    * and which remain in the standard Server-Side Rendering (SSR) environment.
