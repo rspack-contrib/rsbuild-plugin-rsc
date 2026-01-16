@@ -2,7 +2,7 @@ import type { IncomingMessage, ServerResponse } from 'node:http';
 import path from 'node:path';
 import { defineConfig } from '@rsbuild/core';
 import { pluginReact } from '@rsbuild/plugin-react';
-import { pluginRSC, RSC_LAYERS_NAMES } from 'rsbuild-plugin-rsc';
+import { LAYERS_NAMES, pluginRSC } from 'rsbuild-plugin-rsc';
 import { toNodeHandler } from 'srvx/node';
 
 export default defineConfig({
@@ -20,7 +20,7 @@ export default defineConfig({
         entry: {
           index: {
             import: './src/framework/entry.rsc.tsx',
-            layer: RSC_LAYERS_NAMES.REACT_SERVER_COMPONENTS,
+            layer: LAYERS_NAMES.REACT_SERVER_COMPONENTS,
           },
         },
       },
@@ -84,5 +84,8 @@ export default defineConfig({
         next();
       });
     },
+  },
+  output: {
+    minify: false,
   },
 });

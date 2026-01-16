@@ -1,12 +1,12 @@
 import type { RsbuildConfig, RsbuildPlugin } from '@rsbuild/core';
-import { rspack } from '@rsbuild/core';
+import { logger, rspack } from '@rsbuild/core';
 import type { PluginRSCOptions } from './types.js';
 
 export const PLUGIN_RSC_NAME = 'rsbuild:rsc';
 
 const { createRscPlugins } = rspack.experiments;
 
-export const RSC_LAYERS_NAMES: typeof rspack.experiments.RSC_LAYERS_NAMES =
+export const LAYERS_NAMES: typeof rspack.experiments.RSC_LAYERS_NAMES =
   rspack.experiments.RSC_LAYERS_NAMES;
 
 const ENVIRONMENT_NAMES = {
@@ -49,7 +49,16 @@ export const pluginRSC = (
 
     api.modifyBundlerChain(async (chain, { environment }) => {
       // The RSC plugin is currently incompatible with lazyCompilation; this feature has been forcibly disabled.
-      chain.lazyCompilation(false);
+      const lazyCompilation = chain.get('lazyCompilation');
+      if (
+        lazyCompilation === true ||
+        (typeof lazyCompilation === 'object' && lazyCompilation !== null)
+      ) {
+        logger.warn(
+          'The RSC plugin is currently incompatible with lazyCompilation. This feature will be forcibly disabled.',
+        );
+        chain.lazyCompilation(false);
+      }
 
       if (!rscPlugins) {
         rscPlugins = createRscPlugins();
@@ -62,13 +71,13 @@ export const pluginRSC = (
           chain.module
             .rule('ssr-entry')
             .test(ssr)
-            .layer(RSC_LAYERS_NAMES.SERVER_SIDE_RENDERING);
+            .layer(LAYERS_NAMES.SERVER_SIDE_RENDERING);
         }
         if (rsc) {
           chain.module
             .rule('rsc-entry')
             .test(rsc)
-            .layer(RSC_LAYERS_NAMES.REACT_SERVER_COMPONENTS);
+            .layer(LAYERS_NAMES.REACT_SERVER_COMPONENTS);
         }
 
         let rule = chain.module.rule('rsc-resolve');
@@ -76,7 +85,7 @@ export const pluginRSC = (
           rule = rule.exclude.add(ssr).end();
         }
         rule
-          .issuerLayer([RSC_LAYERS_NAMES.REACT_SERVER_COMPONENTS])
+          .issuerLayer([LAYERS_NAMES.REACT_SERVER_COMPONENTS])
           .resolve.conditionNames.add('react-server')
           .add('...');
 
