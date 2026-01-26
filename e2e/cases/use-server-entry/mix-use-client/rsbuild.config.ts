@@ -1,6 +1,6 @@
 import { defineConfig } from '@rsbuild/core';
 import { pluginReact } from '@rsbuild/plugin-react';
-import { LAYERS_NAMES, pluginRSC } from 'rsbuild-plugin-rsc';
+import { Layers, pluginRSC } from 'rsbuild-plugin-rsc';
 import { toNodeHandler } from 'srvx/node';
 import type Fetch from './server';
 
@@ -12,7 +12,7 @@ export default defineConfig({
         entry: {
           index: {
             import: './server/index.tsx',
-            layer: LAYERS_NAMES.REACT_SERVER_COMPONENTS,
+            layer: Layers.rsc,
           },
         },
       },

@@ -4,10 +4,9 @@ import type { PluginRSCOptions } from './types.js';
 
 export const PLUGIN_RSC_NAME = 'rsbuild:rsc';
 
-const { createRscPlugins } = rspack.experiments;
+const { rsc } = rspack.experiments;
 
-export const LAYERS_NAMES: typeof rspack.experiments.RSC_LAYERS_NAMES =
-  rspack.experiments.RSC_LAYERS_NAMES;
+export const Layers: typeof rsc.Layers = rsc.Layers;
 
 export const pluginRSC = (
   pluginOptions: PluginRSCOptions = {},
@@ -43,7 +42,12 @@ export const pluginRSC = (
       return mergeRsbuildConfig(config, rscEnvironmentsConfig);
     });
 
-    let rscPlugins: ReturnType<typeof createRscPlugins>;
+    let rscPlugins: ReturnType<typeof rsc.createPlugins>;
+
+    let sendServerComponentChanges: (() => void) | undefined;
+    api.onBeforeStartDevServer(({ server }) => {
+      sendServerComponentChanges = () => server.sockWrite("custom", { event: 'rsc:update' });
+    });
 
     api.modifyBundlerChain(async (chain, { environment }) => {
       // The RSC plugin is currently incompatible with lazyCompilation; this feature has been forcibly disabled.
@@ -59,23 +63,17 @@ export const pluginRSC = (
       }
 
       if (!rscPlugins) {
-        rscPlugins = createRscPlugins();
+        rscPlugins = rsc.createPlugins();
       }
 
       if (environment.name === server) {
         const { rsc, ssr } = pluginOptions.layers || {};
 
         if (ssr) {
-          chain.module
-            .rule('ssr-entry')
-            .test(ssr)
-            .layer(LAYERS_NAMES.SERVER_SIDE_RENDERING);
+          chain.module.rule('ssr-entry').test(ssr).layer(Layers.ssr);
         }
         if (rsc) {
-          chain.module
-            .rule('rsc-entry')
-            .test(rsc)
-            .layer(LAYERS_NAMES.REACT_SERVER_COMPONENTS);
+          chain.module.rule('rsc-entry').test(rsc).layer(Layers.rsc);
         }
 
         let rule = chain.module.rule('rsc-resolve');
@@ -83,11 +81,17 @@ export const pluginRSC = (
           rule = rule.exclude.add(ssr).end();
         }
         rule
-          .issuerLayer([LAYERS_NAMES.REACT_SERVER_COMPONENTS])
+          .issuerLayer([Layers.rsc])
           .resolve.conditionNames.add('react-server')
           .add('...');
 
-        chain.plugin('rsc-server').use(rscPlugins.ServerPlugin);
+        chain.plugin('rsc-server').use(rscPlugins.ServerPlugin, [
+          {
+            onServerComponentChanges() {
+              sendServerComponentChanges?.()
+            },
+          },
+        ]);
       }
       if (environment.name === client) {
         chain.plugin('rsc-client').use(rscPlugins.ClientPlugin);

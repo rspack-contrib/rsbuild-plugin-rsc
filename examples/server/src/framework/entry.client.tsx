@@ -5,9 +5,9 @@ import {
   createFromReadableStream,
   createTemporaryReferenceSet,
   encodeReply,
-  onServerComponentChanges,
   setServerCallback,
 } from 'react-server-dom-rspack/client.browser';
+
 import { rscStream } from 'rsc-html-stream/client';
 import type { RscPayload } from './entry.rsc';
 import { createRscRenderRequest } from './request';
@@ -77,10 +77,9 @@ async function main() {
     });
   }
 
-  // implement server HMR by triggering re-fetch/render of RSC upon server code change
-  if (process.env.NODE_ENV === 'development') {
-    onServerComponentChanges(() => {
-      console.log('[rspack-rsc:update]');
+  if (import.meta.webpackHot) {
+    import.meta.webpackHot.on('rsc:update', () => {
+      console.log('[rsc:update]');
       fetchRscPayload();
     });
   }
