@@ -4,7 +4,8 @@ import type { PluginRSCOptions } from './types.js';
 
 export const PLUGIN_RSC_NAME = 'rsbuild:rsc';
 
-const { rsc } = rspack.experiments;
+// remove as any after rspack 2.0.0 stable
+const { rsc } = rspack.experiments as any;
 
 export const Layers: typeof rsc.Layers = rsc.Layers;
 
