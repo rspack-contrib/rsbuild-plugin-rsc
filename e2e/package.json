@@ -4,16 +4,16 @@
   "type": "module",
   "version": "1.0.0",
   "scripts": {
-    "test": "playwright test",
-    "test:headed": "playwright test --headed",
-    "test:debug": "playwright test --headed --debug --timeout=30000",
-    "test:server": "playwright test cases/examples/server.test.ts --headed --debug --timeout=30000",
-    "test:server:ui": "playwright test cases/examples/server.test.ts --ui",
-    "test:ui": "playwright test --ui"
+    "test": "NODE_OPTIONS=\"--experimental-vm-modules\" playwright test",
+    "test:headed": "NODE_OPTIONS=\"--experimental-vm-modules\" playwright test --headed",
+    "test:debug": "NODE_OPTIONS=\"--experimental-vm-modules\" playwright test --headed --debug --timeout=30000",
+    "test:server": "NODE_OPTIONS=\"--experimental-vm-modules\" playwright test cases/examples/server.test.ts --headed --debug --timeout=30000",
+    "test:server:ui": "NODE_OPTIONS=\"--experimental-vm-modules\" playwright test cases/examples/server.test.ts --ui",
+    "test:ui": "NODE_OPTIONS=\"--experimental-vm-modules\" playwright test --ui"
   },
   "devDependencies": {
     "@e2e/helper": "workspace:*",
-    "@rsbuild/core": "^2.0.0-alpha.0",
+    "@rsbuild/core": "^2.0.0-alpha.3",
     "@rsbuild/plugin-react": "^1.4.2",
     "@types/express": "^5.0.6",
     "@types/webpack-env": "^1.18.8",
