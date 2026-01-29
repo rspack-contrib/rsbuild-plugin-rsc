@@ -5,9 +5,9 @@ import type { PluginRSCOptions } from './types.js';
 export const PLUGIN_RSC_NAME = 'rsbuild:rsc';
 
 // remove as any after rspack 2.0.0 stable
-const { rsc } = rspack.experiments as any;
+const rscExperiments = (rspack.experiments as any).rsc;
 
-export const Layers: typeof rsc.Layers = rsc.Layers;
+export const Layers = rscExperiments.Layers;
 
 export const pluginRSC = (
   pluginOptions: PluginRSCOptions = {},
@@ -47,7 +47,8 @@ export const pluginRSC = (
 
     let sendServerComponentChanges: (() => void) | undefined;
     api.onBeforeStartDevServer(({ server }) => {
-      sendServerComponentChanges = () => server.sockWrite("custom", { event: 'rsc:update' });
+      sendServerComponentChanges = () =>
+        server.sockWrite('custom', { event: 'rsc:update' });
     });
 
     api.modifyBundlerChain(async (chain, { environment }) => {
@@ -64,7 +65,7 @@ export const pluginRSC = (
       }
 
       if (!rscPlugins) {
-        rscPlugins = rsc.createPlugins();
+        rscPlugins = rscExperiments.createPlugins();
       }
 
       if (environment.name === server) {
@@ -89,7 +90,7 @@ export const pluginRSC = (
         chain.plugin('rsc-server').use(rscPlugins.ServerPlugin, [
           {
             onServerComponentChanges() {
-              sendServerComponentChanges?.()
+              sendServerComponentChanges?.();
             },
           },
         ]);
