@@ -1,3 +1,4 @@
+import type { IncomingMessage, ServerResponse } from 'node:http';
 import type React from 'react';
 import type { ReactFormState } from 'react-dom/client';
 import {
@@ -10,6 +11,7 @@ import {
   type ServerEntry,
   type TemporaryReferenceSet,
 } from 'react-server-dom-rspack/server.node';
+import { toNodeHandler } from 'srvx/node';
 import { renderHTML } from './entry.ssr.tsx';
 import { parseRenderRequest } from './request.tsx';
 
@@ -160,8 +162,52 @@ async function handler(request: Request, id?: number): Promise<Response> {
   return response;
 }
 
+const fetch = (
+  req: IncomingMessage,
+  res: ServerResponse<IncomingMessage>,
+  id?: number,
+) => toNodeHandler((req) => handler(req, id))(req, res);
+
+async function nodeHandler(
+  req: IncomingMessage,
+  res: ServerResponse<IncomingMessage>,
+  next: () => void,
+) {
+  // Handle GET requests to root path
+  if (req.method === 'GET' && req.url === '/') {
+    await fetch(req, res);
+    return;
+  }
+
+  // Handle POST requests to root path
+  if (req.method === 'POST' && req.url === '/') {
+    await fetch(req, res);
+    return;
+  }
+
+  // Handle GET requests to /todos/:id
+  if (req.method === 'GET' && req.url?.startsWith('/todos/')) {
+    const id = req.url.split('/')[2];
+    if (id) {
+      await fetch(req, res, Number(id));
+      return;
+    }
+  }
+
+  // Handle POST requests to /todos/:id
+  if (req.method === 'POST' && req.url?.startsWith('/todos/')) {
+    const id = req.url.split('/')[2];
+    if (id) {
+      await fetch(req, res, Number(id));
+      return;
+    }
+  }
+
+  next();
+}
+
 export default {
-  fetch: handler,
+  nodeHandler,
 };
 
 if (import.meta.webpackHot) {

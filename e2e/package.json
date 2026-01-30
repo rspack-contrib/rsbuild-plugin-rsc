@@ -4,12 +4,10 @@
   "type": "module",
   "version": "1.0.0",
   "scripts": {
-    "test": "NODE_OPTIONS=\"--experimental-vm-modules\" playwright test",
-    "test:headed": "NODE_OPTIONS=\"--experimental-vm-modules\" playwright test --headed",
-    "test:debug": "NODE_OPTIONS=\"--experimental-vm-modules\" playwright test --headed --debug --timeout=30000",
-    "test:server": "NODE_OPTIONS=\"--experimental-vm-modules\" playwright test cases/examples/server.test.ts --headed --debug --timeout=30000",
-    "test:server:ui": "NODE_OPTIONS=\"--experimental-vm-modules\" playwright test cases/examples/server.test.ts --ui",
-    "test:ui": "NODE_OPTIONS=\"--experimental-vm-modules\" playwright test --ui"
+    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules playwright test",
+    "test-dev": "cross-env TEST_MODE=dev pnpm test",
+    "test-build": "cross-env TEST_MODE=build pnpm test",
+    "test:headed": "cross-env NODE_OPTIONS=--experimental-vm-modules playwright test --headed"
   },
   "devDependencies": {
     "@e2e/helper": "workspace:*",
@@ -17,6 +15,8 @@
     "@rsbuild/plugin-react": "^1.4.2",
     "@types/express": "^5.0.6",
     "@types/webpack-env": "^1.18.8",
+    "cross-env": "^10.1.0",
+    "express": "^4.22.1",
     "rsbuild-plugin-rsc": "workspace:*",
     "srvx": "^0.9.8"
   },

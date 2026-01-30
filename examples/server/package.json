@@ -6,7 +6,7 @@
   "scripts": {
     "build": "rsbuild build",
     "dev": "NODE_OPTIONS=\"--experimental-vm-modules\" rsbuild dev",
-    "preview": "rsbuild preview"
+    "preview": "node server.js"
   },
   "dependencies": {
     "react": "^19.1.0",
@@ -18,6 +18,7 @@
     "@rsbuild/core": "^2.0.0-alpha.3",
     "@rsbuild/plugin-react": "^1.4.2",
     "@types/express": "^5.0.6",
+    "@types/node": "^25.0.3",
     "@types/webpack-env": "^1.18.8",
     "express": "^4.18.2",
     "rsbuild-plugin-rsc": "workspace:*",

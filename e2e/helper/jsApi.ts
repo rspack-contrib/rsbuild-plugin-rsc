@@ -8,6 +8,7 @@ import type {
   RsbuildInstance,
 } from '@rsbuild/core';
 import { createRsbuild } from '@rsbuild/core';
+import express from 'express';
 import type { Page } from 'playwright';
 import type { LogHelper } from './logs.ts';
 import { getRandomPort, gotoPage, noop, toPosixPath } from './utils.ts';
@@ -212,10 +213,32 @@ export async function build({
   let port = 0;
   let server = { close: noop };
 
-  if (runServer || page) {
-    const result = await rsbuild.preview();
-    port = result.port;
-    server = result.server;
+  if (runServer) {
+    port = await getRandomPort();
+
+    const app = express();
+
+    // RSC handler middleware
+    const rsc = await import(distPath);
+    app.use(rsc.default.nodeHandler);
+
+    // Static file serving
+    app.use(express.static(distPath));
+
+    await new Promise<void>((resolve, reject) => {
+      const theServer = app.listen(port, (error) => {
+        if (error) {
+          reject(error);
+          return;
+        }
+        resolve();
+      });
+      server = {
+        close() {
+          theServer.close();
+        },
+      };
+    });
   }
 
   const getIndexBundle = async () => {

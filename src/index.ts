@@ -5,9 +5,9 @@ import type { PluginRSCOptions } from './types.js';
 export const PLUGIN_RSC_NAME = 'rsbuild:rsc';
 
 // remove as any after rspack 2.0.0 stable
-const rscExperiments = (rspack.experiments as any).rsc;
+const rsc = (rspack.experiments as any).rsc;
 
-export const Layers = rscExperiments.Layers;
+export const Layers = rsc.Layers;
 
 export const pluginRSC = (
   pluginOptions: PluginRSCOptions = {},
@@ -65,7 +65,7 @@ export const pluginRSC = (
       }
 
       if (!rscPlugins) {
-        rscPlugins = rscExperiments.createPlugins();
+        rscPlugins = rsc.createPlugins();
       }
 
       if (environment.name === server) {

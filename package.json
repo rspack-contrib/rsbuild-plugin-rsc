@@ -49,7 +49,7 @@
   },
   "pnpm": {
     "overrides": {
-      "@rsbuild/core@^2.0.0-alpha.3>@rspack/core": "npm:@rspack-canary/core@2.0.0-canary-dcb96bee-20260127053038"
+      "@rsbuild/core@^2.0.0-alpha.3>@rspack/core": "npm:@rspack-canary/core@2.0.0-canary-b7bcbce6-20260130082012"
     }
   }
 }
