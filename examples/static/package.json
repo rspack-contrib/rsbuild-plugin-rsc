@@ -19,7 +19,7 @@
     "react-server-dom-rspack": "0.0.1-alpha.10"
   },
   "devDependencies": {
-    "@rsbuild/plugin-react": "^1.4.2",
+    "@rsbuild/plugin-react": "^1.4.5",
     "@types/react-dom": "^19.2.3",
     "@types/webpack-env": "^1.18.8",
     "fast-glob": "^3.3.3",

@@ -11,8 +11,8 @@
   },
   "devDependencies": {
     "@e2e/helper": "workspace:*",
-    "@rsbuild/core": "^2.0.0-alpha.3",
-    "@rsbuild/plugin-react": "^1.4.2",
+    "@rsbuild/core": "^2.0.0-beta.2",
+    "@rsbuild/plugin-react": "^1.4.5",
     "@types/express": "^5.0.6",
     "@types/webpack-env": "^1.18.8",
     "cross-env": "^10.1.0",
