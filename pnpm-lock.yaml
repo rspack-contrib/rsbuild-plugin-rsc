@@ -45,8 +45,8 @@ importers:
         specifier: 1.6.0
         version: 1.6.0(typescript@5.9.3)
       react-server-dom-rspack:
-        specifier: 0.0.1-alpha.10
-        version: 0.0.1-alpha.10(@rspack/core@2.0.0-beta.0(@swc/helpers@0.5.18))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+        specifier: 0.0.1-beta.0
+        version: 0.0.1-beta.0(@rspack/core@2.0.0-beta.0(@swc/helpers@0.5.18))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       rsbuild-plugin-arethetypeswrong:
         specifier: ^0.1.1
         version: 0.1.1(@rsbuild/core@2.0.0-beta.2(core-js@3.47.0))(typescript@5.9.3)
@@ -109,8 +109,8 @@ importers:
         specifier: ^19.1.0
         version: 19.2.3(react@19.2.3)
       react-server-dom-rspack:
-        specifier: 0.0.1-alpha.10
-        version: 0.0.1-alpha.10(@rspack/core@2.0.0-beta.0(@swc/helpers@0.5.18))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+        specifier: 0.0.1-beta.0
+        version: 0.0.1-beta.0(@rspack/core@2.0.0-beta.0(@swc/helpers@0.5.18))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       rsc-html-stream:
         specifier: ^0.0.7
         version: 0.0.7
@@ -143,8 +143,8 @@ importers:
         specifier: ^19.1.0
         version: 19.2.3(react@19.2.3)
       react-server-dom-rspack:
-        specifier: 0.0.1-alpha.10
-        version: 0.0.1-alpha.10(@rspack/core@2.0.0-beta.0(@swc/helpers@0.5.18))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+        specifier: 0.0.1-beta.0
+        version: 0.0.1-beta.0(@rspack/core@2.0.0-beta.0(@swc/helpers@0.5.18))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       rsc-html-stream:
         specifier: ^0.0.7
         version: 0.0.7
@@ -183,8 +183,8 @@ importers:
         specifier: ^19.1.0
         version: 19.2.3(react@19.2.3)
       react-server-dom-rspack:
-        specifier: 0.0.1-alpha.10
-        version: 0.0.1-alpha.10(@rspack/core@2.0.0-beta.0(@swc/helpers@0.5.18))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+        specifier: 0.0.1-beta.0
+        version: 0.0.1-beta.0(@rspack/core@2.0.0-beta.0(@swc/helpers@0.5.18))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
     devDependencies:
       '@rsbuild/plugin-react':
         specifier: ^1.4.5
@@ -1214,8 +1214,8 @@ packages:
     resolution: {integrity: sha512-QgT5//D3jfjJb6Gsjxv0Slpj23ip+HtOpnNgnb2S5zU3CB26G/IDPGoy4RJB42wzFE46DRsstbW6tKHoKbhAxw==}
     engines: {node: '>=0.10.0'}
 
-  react-server-dom-rspack@0.0.1-alpha.10:
-    resolution: {integrity: sha512-OR0IMsnNUIERZHtvyjjtSCJbHJVL8Q7lTeN4onOViccpCQStA+qq79zxR2BHO6JAnqnVQRFpAO/zLY9I5Ikw+Q==}
+  react-server-dom-rspack@0.0.1-beta.0:
+    resolution: {integrity: sha512-kyXAmRTHoXBxmaGP9Seiq4op/0u/F+JkqBYEKE3un35d+vAYYU/Ljb7dDqQAK8c+6Zljwe1BFbsJtqrU0zZ57Q==}
     engines: {node: '>=0.10.0'}
     peerDependencies:
       '@rspack/core': ^2.0.0-0
@@ -2303,7 +2303,7 @@ snapshots:
 
   react-refresh@0.18.0: {}
 
-  react-server-dom-rspack@0.0.1-alpha.10(@rspack/core@2.0.0-beta.0(@swc/helpers@0.5.18))(react-dom@19.2.3(react@19.2.3))(react@19.2.3):
+  react-server-dom-rspack@0.0.1-beta.0(@rspack/core@2.0.0-beta.0(@swc/helpers@0.5.18))(react-dom@19.2.3(react@19.2.3))(react@19.2.3):
     dependencies:
       '@rspack/core': 2.0.0-beta.0(@swc/helpers@0.5.18)
       react: 19.2.3
