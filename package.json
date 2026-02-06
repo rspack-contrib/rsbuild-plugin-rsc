@@ -46,5 +46,10 @@
   "peerDependencies": {
     "@rsbuild/core": "^2.0.0-0",
     "react-server-dom-rspack": "*"
+  },
+  "pnpm": {
+    "overrides": {
+      "@rsbuild/core@^2.0.0-beta.2>@rspack/core": "npm:@rspack-canary/core@2.0.0-canary-c4c98775-20260206111442"
+    }
   }
 }
