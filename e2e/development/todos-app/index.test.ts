@@ -1,7 +1,19 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { expect, patchFile, retry, test } from '@e2e/helper';
-import { PROJECT_DIR, setup } from './setup';
+
+const PROJECT_DIR = path.resolve(
+  import.meta.dirname,
+  '../../../examples/server',
+);
+
+const setup = async (dev: Dev, page: Page) => {
+  const rsbuild = await dev({
+    cwd: PROJECT_DIR,
+  });
+  page.goto(`http://localhost:${rsbuild.port}`);
+  return rsbuild;
+};
 
 const modifyFile = async (
   filePath: string,
