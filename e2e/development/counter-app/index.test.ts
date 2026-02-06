@@ -1,0 +1,114 @@
+import path from 'node:path';
+import { expect, patchFile, retry, test } from '@e2e/helper';
+
+const PROJECT_DIR = path.resolve(
+  import.meta.dirname,
+  '../../../examples/client',
+);
+
+const setup = async (dev: Dev, page: Page) => {
+  const rsbuild = await dev({
+    cwd: PROJECT_DIR,
+  });
+  page.goto(`http://localhost:${rsbuild.port}`);
+  return rsbuild;
+};
+
+test('should refetch RSC payload when server component is modified', async ({
+  page,
+  dev,
+}) => {
+  await setup(dev, page);
+
+  // Verify initial state
+  const clientHeader = page.locator('h1');
+  await expect(clientHeader).toHaveText('Client rendered');
+
+  const rscHeader = page.locator('h2');
+  await expect(rscHeader).toHaveText('RSC!');
+
+  // Modify the RSC.tsx file
+  const rscTsxPath = path.join(PROJECT_DIR, 'server/RSC.tsx');
+
+  await patchFile(
+    rscTsxPath,
+    (content) => content!.replace('<h2>RSC!</h2>', '<h2>HMR Test RSC</h2>'),
+    async () => {
+      await retry(async () => {
+        const element = page.locator('h2');
+        await expect(element).toHaveText('HMR Test RSC');
+      });
+    },
+  );
+
+  // Verify restoration after patchFile completes
+  await retry(async () => {
+    const element = page.locator('h2');
+    await expect(element).toHaveText('RSC!');
+  });
+});
+
+test('should preserve state when client component is modified', async ({
+  page,
+  dev,
+}) => {
+  await setup(dev, page);
+
+  // Find the counter button
+  const counterButton = page.locator('button', { hasText: 'Count:' });
+  await expect(counterButton).toBeVisible();
+  await expect(counterButton).toHaveText('Count: 0');
+
+  // Click the button 3 times
+  await counterButton.click();
+  await counterButton.click();
+  await counterButton.click();
+  await expect(counterButton).toHaveText('Count: 3');
+
+  // Modify the Counter.tsx file
+  const counterTsxPath = path.join(PROJECT_DIR, 'server/Counter.tsx');
+
+  await patchFile(
+    counterTsxPath,
+    (content) =>
+      content!.replace(
+        '<button onClick={() => setCount(count + 1)}>Count: {count}</button>',
+        '<button onClick={() => setCount(count + 1)} className="hmr-updated" data-hmr-test="true">Count: {count}</button>',
+      ),
+    async () => {
+      await retry(async () => {
+        const updatedButton = page.locator('button.hmr-updated');
+        await expect(updatedButton).toHaveAttribute('data-hmr-test', 'true');
+      });
+      // Verify counter state is preserved after hot reload
+      await expect(counterButton).toHaveText('Count: 3');
+    },
+  );
+});
+
+test('should not load CSS when "use server-entry" directive is removed', async ({
+  page,
+  dev,
+}) => {
+  await patchFile(
+    path.join(PROJECT_DIR, 'server/RSC.tsx'),
+    (content) => content!.replace("'use server-entry';", ''),
+    async () => {
+      await setup(dev, page);
+
+      // Check client header is visible
+      const clientHeader = page.locator('h1');
+      await expect(clientHeader).toBeVisible();
+      await expect(clientHeader).toHaveText('Client rendered');
+
+      // Check RSC content is visible
+      const rscHeader = page.locator('h2');
+      await expect(rscHeader).toBeVisible();
+      await expect(rscHeader).toHaveText('RSC!');
+
+      // Check that no CSS stylesheets are loaded
+      const links = page.locator('link[rel="stylesheet"]');
+      await expect(links).toHaveCount(0);
+    },
+  );
+});
