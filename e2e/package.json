@@ -5,9 +5,10 @@
   "version": "1.0.0",
   "scripts": {
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules playwright test",
-    "test-dev": "cross-env TEST_MODE=dev pnpm test",
-    "test-build": "cross-env TEST_MODE=build pnpm test",
-    "test:headed": "cross-env NODE_OPTIONS=--experimental-vm-modules playwright test --headed"
+    "test-dev": "cross-env TEST_MODE=dev pnpm test development integration",
+    "test-build": "cross-env TEST_MODE=build pnpm test integration",
+    "test:headed": "cross-env NODE_OPTIONS=--experimental-vm-modules playwright test --headed",
+    "test:all": "pnpm run test-dev && pnpm run test-build"
   },
   "devDependencies": {
     "@e2e/helper": "workspace:*",
