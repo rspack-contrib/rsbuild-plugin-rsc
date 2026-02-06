@@ -1,8 +1,7 @@
 import { defineConfig } from '@rsbuild/core';
 import { pluginReact } from '@rsbuild/plugin-react';
 import { Layers, pluginRSC } from 'rsbuild-plugin-rsc';
-import { toNodeHandler } from 'srvx/node';
-import type Fetch from './server';
+import type NodeHandler from './server';
 
 export default defineConfig({
   plugins: [pluginReact(), pluginRSC()],
@@ -27,17 +26,12 @@ export default defineConfig({
   },
   dev: {
     setupMiddlewares: (middlewares, serverAPI) => {
+      // Custom middleware to handle RSC (React Server Components) requests
       middlewares.unshift(async (req, res, next) => {
-        // Custom middleware to handle RSC (React Server Components) requests
-        // Intercepts requests with 'text/x-component' accept header and routes them to the server bundle
-        if (req.headers.accept?.includes('text/x-component')) {
-          const indexModule = await serverAPI.environments.server.loadBundle<{
-            default: typeof Fetch;
-          }>('index');
-          await toNodeHandler(() => indexModule.default.fetch())(req, res);
-        } else {
-          next();
-        }
+        const indexModule = await serverAPI.environments.server.loadBundle<{
+          default: NodeHandler;
+        }>('index');
+        await indexModule.default.nodeHandler(req, res, next);
       });
     },
   },

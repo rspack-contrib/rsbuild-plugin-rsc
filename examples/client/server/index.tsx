@@ -1,9 +1,10 @@
-import type { ReactFormState } from "react-dom/client";
+import type { ReactFormState } from 'react-dom/client';
 import {
   renderToReadableStream,
   type TemporaryReferenceSet,
-} from "react-server-dom-rspack/server.node";
-import { RSC } from "./RSC";
+} from 'react-server-dom-rspack/server.node';
+import { toNodeHandler } from 'srvx/node';
+import { RSC } from './RSC';
 
 export type RscPayload = {
   root: React.ReactNode;
@@ -33,13 +34,27 @@ async function handler(): Promise<Response> {
 
   return new Response(rscStream, {
     headers: {
-      "content-type": "text/x-component;charset=utf-8",
+      'content-type': 'text/x-component;charset=utf-8',
     },
   });
 }
 
+const fetch = toNodeHandler(() => handler());
+
+async function nodeHandler(
+  req: IncomingMessage,
+  res: ServerResponse<IncomingMessage>,
+  next: () => void,
+) {
+  if (req.headers.accept?.includes('text/x-component')) {
+    await fetch(req, res);
+  } else {
+    next();
+  }
+}
+
 export default {
-  fetch: handler,
+  nodeHandler,
 };
 
 if (import.meta.webpackHot) {

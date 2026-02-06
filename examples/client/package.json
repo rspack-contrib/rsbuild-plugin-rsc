@@ -2,6 +2,7 @@
   "name": "rsbuild-rsc-client",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "rsbuild build",
     "dev": "NODE_OPTIONS=\"--experimental-vm-modules\" rsbuild dev",
