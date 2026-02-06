@@ -1,9 +1,9 @@
-import type { ReactFormState } from 'react-dom/client';
+import type { ReactFormState } from "react-dom/client";
 import {
   renderToReadableStream,
   type TemporaryReferenceSet,
-} from 'react-server-dom-rspack/server.node';
-import { RSC } from './RSC';
+} from "react-server-dom-rspack/server.node";
+import { RSC } from "./RSC";
 
 export type RscPayload = {
   root: React.ReactNode;
@@ -14,11 +14,26 @@ export type RscPayload = {
 async function handler(): Promise<Response> {
   let temporaryReferences: TemporaryReferenceSet | undefined;
   const rscOptions = { temporaryReferences };
-  const rscStream = renderToReadableStream(<RSC />, rscOptions);
+  const root = (
+    <>
+      {RSC.entryCssFiles
+        ? RSC.entryCssFiles.map((href) => (
+            <link
+              key={href}
+              rel="stylesheet"
+              href={href}
+              precedence="default"
+            ></link>
+          ))
+        : null}
+      <RSC />
+    </>
+  );
+  const rscStream = renderToReadableStream(root, rscOptions);
 
   return new Response(rscStream, {
     headers: {
-      'content-type': 'text/x-component;charset=utf-8',
+      "content-type": "text/x-component;charset=utf-8",
     },
   });
 }
